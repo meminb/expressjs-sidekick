@@ -4,7 +4,20 @@ var app = express();
 var dataFile = require('./data/data.json');
 var io = require('socket.io')();
 
-app.set('port', process.env.PORT || 3000 );
+
+/*
+Sidekick agent
+*/
+var sidekickDebugger = require('@runsidekick/sidekick-agent-nodejs');
+
+sidekickDebugger.start({
+  apiKey: process.env.SIDEKICK_APIKEY,
+});
+
+
+
+
+app.set('port', process.env.PORT || 3000);
 app.set('appData', dataFile);
 app.set('view engine', 'ejs');
 app.set('views', 'app/views');
@@ -19,13 +32,13 @@ app.use(require('./routes/feedback'));
 app.use(require('./routes/api'));
 app.use(require('./routes/chat'));
 
-var server = app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), function () {
   console.log('Listening on port ' + app.get('port'));
 });
 
 io.attach(server);
-io.on('connection', function(socket) {
-  socket.on('postMessage', function(data) {
+io.on('connection', function (socket) {
+  socket.on('postMessage', function (data) {
     io.emit('updateMessages', data);
   });
 });
