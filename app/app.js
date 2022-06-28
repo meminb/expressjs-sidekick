@@ -12,9 +12,10 @@ var sidekickDebugger = require('@runsidekick/sidekick-agent-nodejs');
 
 sidekickDebugger.start({
   apiKey: process.env.SIDEKICK_APIKEY,
+  SIDEKICK_AGENT_APPLICATION_NAME: "sidekick demo app",
+  SIDEKICK_AGENT_LOG_LEVEL:"debug",
+  SIDEKICK_AGENT_BROKER_HOST: "wss://broker.service.runsidekick.us" 
 });
-
-
 
 
 app.set('port', process.env.PORT || 3000);
